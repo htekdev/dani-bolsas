@@ -1,0 +1,5 @@
+{
+  "_comment": "Registro de viajes de compra. Cada viaje tiene un costo total y una lista de bolsas compradas en el. NO INVENTAR viajes — llenar solo con datos reales que Dani proporcione.",
+  "moneda": "MXN",
+  "viajes": []
+}

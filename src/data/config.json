@@ -1,0 +1,7 @@
+{
+  "_comment": "Configuracion global de costeo. Ajustar cuando Dani confirme los valores reales.",
+  "moneda": "MXN",
+  "margen_objetivo": 0.40,
+  "tasa_impuestos": 0.16,
+  "metodo_prorrateo_viaje": "igual"
+}

@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import bolsasData from '../data/bolsas.json';
+import { mxn } from '../lib/costeo.js';
+
+const bolsas = bolsasData.bolsas ?? [];
+---
+<Layout title="Catalogo — Dani Bolsas">
+  <section class="max-w-6xl mx-auto px-6 pt-16 pb-8 text-center">
+    <h1 class="font-display text-4xl md:text-5xl text-cocoa">Catalogo</h1>
+    <p class="mt-4 text-cocoa/70">Piezas disponibles ahora.</p>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 pb-24">
+    {bolsas.length === 0 ? (
+      <div class="p-12 border border-dashed border-cocoa/20 rounded-lg text-center bg-white/30">
+        <p class="font-display text-xl text-cocoa/70">Proximamente</p>
+        <p class="mt-3 text-cocoa/60 text-sm max-w-md mx-auto">
+          Dani esta preparando las fotos y detalles de las bolsas. El catalogo se llenara pronto.
+        </p>
+      </div>
+    ) : (
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {bolsas.map((b) => (
+          <article class="bg-white/50 rounded-lg overflow-hidden border border-cocoa/10 hover:shadow-lg transition">
+            {b.foto ? (
+              <img src={b.foto} alt={b.nombre} class="w-full aspect-square object-cover" />
+            ) : (
+              <div class="w-full aspect-square bg-cocoa/5 flex items-center justify-center text-cocoa/30 text-sm">
+                Sin foto
+              </div>
+            )}
+            <div class="p-5">
+              <h3 class="font-display text-xl text-cocoa">{b.nombre}</h3>
+              {b.descripcion && <p class="mt-2 text-sm text-cocoa/70">{b.descripcion}</p>}
+              {typeof b.precio_venta === 'number' && (
+                <p class="mt-4 font-medium text-cocoa">{mxn(b.precio_venta)}</p>
+              )}
+              {b.estado === 'vendida' && (
+                <p class="mt-2 text-xs uppercase tracking-widest text-rose">Vendida</p>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+</Layout>

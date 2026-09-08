@@ -1,0 +1,137 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import bolsasData from '../../data/bolsas.json';
+import viajesData from '../../data/viajes.json';
+import config from '../../data/config.json';
+import {
+  calcularCostoTotal,
+  prorratearViaje,
+  precioSugerido,
+  utilidadReal,
+  mxn,
+} from '../../lib/costeo.js';
+
+const viajes = viajesData.viajes ?? [];
+const bolsas = bolsasData.bolsas ?? [];
+const margen = config.margen_objetivo ?? 0.4;
+
+const filas = [];
+
+for (const viaje of viajes) {
+  const bolsasViaje = (viaje.bolsas ?? []).map((id) =>
+    bolsas.find((b) => b.id === id)
+  ).filter(Boolean);
+  if (bolsasViaje.length === 0) continue;
+
+  const partes = prorratearViaje({
+    costo_viaje_total: viaje.costo_total ?? 0,
+    bolsas: bolsasViaje.map((b) => ({ precio_compra: b.precio_compra ?? 0 })),
+    metodo: viaje.metodo_prorrateo ?? config.metodo_prorrateo_viaje ?? 'igual',
+  });
+
+  bolsasViaje.forEach((b, i) => {
+    const impuestos = (b.precio_compra ?? 0) * (config.tasa_impuestos ?? 0);
+    const otros = b.otros_costos ?? 0;
+    const costo_total = calcularCostoTotal({
+      precio_compra: b.precio_compra ?? 0,
+      costo_viaje: partes[i],
+      impuestos,
+      otros_costos: otros,
+    });
+    const p_sug = precioSugerido(costo_total, margen);
+    const p_venta = typeof b.precio_venta === 'number' ? b.precio_venta : null;
+    const ur = p_venta !== null ? utilidadReal(p_venta, costo_total) : null;
+
+    filas.push({
+      nombre: b.nombre ?? b.id,
+      precio_compra: b.precio_compra ?? 0,
+      costo_viaje: partes[i],
+      impuestos,
+      otros,
+      costo_total,
+      precio_sugerido: p_sug,
+      precio_venta: p_venta,
+      utilidad: ur?.utilidad ?? null,
+      margen_real: ur?.margen_real ?? null,
+    });
+  });
+}
+
+const totalCompra = filas.reduce((s, f) => s + f.precio_compra, 0);
+const totalCostoTotal = filas.reduce((s, f) => s + f.costo_total, 0);
+const totalUtilidad = filas.reduce((s, f) => s + (f.utilidad ?? 0), 0);
+---
+<Layout title="Costeo interno — Dani Bolsas">
+  <section class="max-w-6xl mx-auto px-6 pt-12 pb-6">
+    <p class="text-xs uppercase tracking-widest text-gold">Interno · No compartir</p>
+    <h1 class="font-display text-4xl text-cocoa mt-2">Costeo y utilidad</h1>
+    <p class="mt-3 text-cocoa/70">
+      Costo total puesto en tienda: precio de compra + viaje prorrateado ({config.metodo_prorrateo_viaje})
+      + impuestos ({(config.tasa_impuestos * 100).toFixed(0)}%) + otros. Margen objetivo:
+      <strong>{(margen * 100).toFixed(0)}%</strong>.
+    </p>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 pb-16">
+    {filas.length === 0 ? (
+      <div class="p-8 border border-dashed border-cocoa/20 rounded-lg bg-white/30">
+        <p class="text-cocoa/60 text-sm">
+          No hay datos todavia. Agrega bolsas en <code>src/data/bolsas.json</code> y viajes en
+          <code>src/data/viajes.json</code> para ver los calculos.
+        </p>
+      </div>
+    ) : (
+      <div class="overflow-x-auto bg-white/40 border border-cocoa/10 rounded-lg">
+        <table class="w-full text-sm">
+          <thead class="bg-cocoa/5 text-cocoa/70 text-xs uppercase tracking-wider">
+            <tr>
+              <th class="text-left px-4 py-3">Bolsa</th>
+              <th class="text-right px-4 py-3">Compra</th>
+              <th class="text-right px-4 py-3">Viaje</th>
+              <th class="text-right px-4 py-3">Impuestos</th>
+              <th class="text-right px-4 py-3">Otros</th>
+              <th class="text-right px-4 py-3">Costo total</th>
+              <th class="text-right px-4 py-3">Sugerido</th>
+              <th class="text-right px-4 py-3">Venta</th>
+              <th class="text-right px-4 py-3">Utilidad</th>
+              <th class="text-right px-4 py-3">Margen</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filas.map((f) => (
+              <tr class="border-t border-cocoa/5">
+                <td class="px-4 py-3 font-medium">{f.nombre}</td>
+                <td class="px-4 py-3 text-right">{mxn(f.precio_compra)}</td>
+                <td class="px-4 py-3 text-right">{mxn(f.costo_viaje)}</td>
+                <td class="px-4 py-3 text-right">{mxn(f.impuestos)}</td>
+                <td class="px-4 py-3 text-right">{mxn(f.otros)}</td>
+                <td class="px-4 py-3 text-right font-semibold">{mxn(f.costo_total)}</td>
+                <td class="px-4 py-3 text-right text-gold">{mxn(f.precio_sugerido)}</td>
+                <td class="px-4 py-3 text-right">
+                  {f.precio_venta !== null ? mxn(f.precio_venta) : '—'}
+                </td>
+                <td class="px-4 py-3 text-right">
+                  {f.utilidad !== null ? mxn(f.utilidad) : '—'}
+                </td>
+                <td class="px-4 py-3 text-right">
+                  {f.margen_real !== null ? `${(f.margen_real * 100).toFixed(1)}%` : '—'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot class="bg-cocoa/5 font-semibold text-cocoa">
+            <tr>
+              <td class="px-4 py-3">Totales</td>
+              <td class="px-4 py-3 text-right">{mxn(totalCompra)}</td>
+              <td class="px-4 py-3" colspan="3"></td>
+              <td class="px-4 py-3 text-right">{mxn(totalCostoTotal)}</td>
+              <td class="px-4 py-3" colspan="2"></td>
+              <td class="px-4 py-3 text-right">{mxn(totalUtilidad)}</td>
+              <td class="px-4 py-3"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    )}
+  </section>
+</Layout>

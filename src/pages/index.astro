@@ -1,0 +1,54 @@
+---
+import Layout from '../layouts/Layout.astro';
+import bolsasData from '../data/bolsas.json';
+
+const bolsas = bolsasData.bolsas ?? [];
+const totalBolsas = bolsas.length;
+---
+<Layout title="Dani Bolsas — Bolsas de mano en Bacalar">
+  <section class="max-w-6xl mx-auto px-6 pt-16 pb-24 text-center">
+    <p class="text-gold uppercase tracking-widest text-xs mb-6">Bacalar · Quintana Roo</p>
+    <h1 class="font-display text-5xl md:text-6xl text-cocoa leading-tight max-w-3xl mx-auto">
+      Bolsas de mano <em class="text-gold not-italic">unicas</em>, elegidas a mano.
+    </h1>
+    <p class="mt-6 text-lg text-cocoa/70 max-w-2xl mx-auto">
+      Cada bolsa del catalogo de Dani es seleccionada personalmente en viajes especiales.
+      Piezas cuidadas, precios justos, disponibilidad limitada.
+    </p>
+    <div class="mt-10 flex justify-center gap-4">
+      <a
+        href="/bolsas"
+        class="inline-block px-8 py-3 rounded-full bg-cocoa text-cream text-sm tracking-wide hover:bg-gold transition"
+      >
+        Ver catalogo
+      </a>
+    </div>
+  </section>
+
+  <section class="max-w-6xl mx-auto px-6 pb-24">
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+      <div class="p-8 border border-cocoa/10 rounded-lg bg-white/40">
+        <h3 class="font-display text-2xl text-cocoa mb-3">Curadas</h3>
+        <p class="text-cocoa/70 text-sm">Cada pieza es escogida a mano por Dani en persona.</p>
+      </div>
+      <div class="p-8 border border-cocoa/10 rounded-lg bg-white/40">
+        <h3 class="font-display text-2xl text-cocoa mb-3">Limitadas</h3>
+        <p class="text-cocoa/70 text-sm">Piezas unicas o en muy poca cantidad. Cuando se van, se van.</p>
+      </div>
+      <div class="p-8 border border-cocoa/10 rounded-lg bg-white/40">
+        <h3 class="font-display text-2xl text-cocoa mb-3">Bacalar</h3>
+        <p class="text-cocoa/70 text-sm">Hecho desde el sur de Mexico, con carino y detalle.</p>
+      </div>
+    </div>
+  </section>
+
+  {totalBolsas === 0 && (
+    <section class="max-w-3xl mx-auto px-6 pb-24 text-center">
+      <div class="p-8 border border-dashed border-cocoa/20 rounded-lg bg-white/30">
+        <p class="text-cocoa/60 text-sm italic">
+          El catalogo se llenara pronto con las fotos y datos que envie Dani.
+        </p>
+      </div>
+    </section>
+  )}
+</Layout>
