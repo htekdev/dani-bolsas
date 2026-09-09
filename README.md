@@ -4,8 +4,9 @@ Catálogo digital de bolsas de mano — negocio de Dani (Bacalar, México).
 
 **Owner:** Dani (via Sofia)
 **Stack:** Astro + Tailwind CSS
-**Deploy:** Vercel
+**Deploy:** Vercel — [dani-bolsas.vercel.app](https://dani-bolsas.vercel.app) (production) / preview URLs auto-generated per PR
 **Repo:** htekdev/dani-bolsas
+**Vercel project:** `htekdevs-projects/dani-bolsas`
 
 ## Estructura
 
