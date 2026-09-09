@@ -1,0 +1,105 @@
+{
+  "_comment": "Catalogo de bolsas de Dani. Datos reales tomados del catalogo Closetty (Canva) que Dani envio, con correcciones de errores de dedo, categorias y descripciones mal copiadas. NO INVENTAR productos ni precios nuevos — solo agregar/editar con datos reales que Dani proporcione. Fotos pendientes: Dani debe enviar las fotos individuales de cada producto para subirlas a public/fotos/.",
+  "moneda": "MXN",
+  "bolsas": [
+    {
+      "id": "praline",
+      "nombre": "Praliné",
+      "tipo": "Structured City Bag",
+      "categoria": "bolsa",
+      "descripcion": "Estructura suave, herrajes dorados y una silueta con caracter.",
+      "colores": ["Arena", "Espresso", "Noir"],
+      "precio_venta": 1099,
+      "foto": null,
+      "estado": "disponible"
+    },
+    {
+      "id": "bijou",
+      "nombre": "Bijou",
+      "tipo": "Top-Handle Icon",
+      "categoria": "bolsa",
+      "descripcion": "Una silueta alargada y elegante para elevar cualquier look.",
+      "colores": ["Cafe con negro", "Negro"],
+      "precio_venta": 1399,
+      "foto": null,
+      "estado": "disponible"
+    },
+    {
+      "id": "petite",
+      "nombre": "Petite",
+      "tipo": "Compact Shoulder Bag",
+      "categoria": "bolsa",
+      "descripcion": "Pequena en tamano, protagonista en el look.",
+      "colores": ["Cafe", "Beige"],
+      "precio_venta": 999,
+      "foto": null,
+      "estado": "disponible"
+    },
+    {
+      "id": "bombon",
+      "nombre": "Bombón",
+      "tipo": "Mini Bowling Bag",
+      "categoria": "bolsa",
+      "descripcion": "Una mini estructurada con actitud dulce y acabado pulido.",
+      "colores": ["Rosa", "Negro", "Cafe"],
+      "precio_venta": 1099,
+      "foto": null,
+      "estado": "disponible"
+    },
+    {
+      "id": "creme",
+      "nombre": "Créme",
+      "tipo": "Oversized Bowling Bag",
+      "categoria": "bolsa",
+      "descripcion": "Mas espacio, lineas limpias y una presencia effortless.",
+      "colores": ["Negro", "Cafe"],
+      "precio_venta": 1149,
+      "foto": null,
+      "estado": "disponible"
+    },
+    {
+      "id": "portofino",
+      "nombre": "Portofino",
+      "tipo": "Monogram Carryall",
+      "categoria": "bolsa",
+      "descripcion": "Amplia, grafica y pensada para acompanarte todo el dia.",
+      "colores": ["Negro", "Cafe"],
+      "precio_venta": 1099,
+      "foto": null,
+      "estado": "disponible"
+    },
+    {
+      "id": "crush",
+      "nombre": "Crush",
+      "tipo": "Chain Evening Bag",
+      "categoria": "bolsa",
+      "descripcion": "Textura croc, cadena dorada y una silueta hecha para la noche.",
+      "colores": ["Negro"],
+      "precio_venta": 599,
+      "foto": null,
+      "estado": "disponible"
+    },
+    {
+      "id": "tarjeteros",
+      "nombre": "Tarjeteros",
+      "tipo": "Card Holders",
+      "categoria": "accesorio",
+      "descripcion": "Tarjeteros compactos con textura y herrajes de acabado premium — el complemento perfecto para el dia a dia.",
+      "colores": ["Azul", "Rojo", "Verde", "Gris", "Negro"],
+      "precio_venta": 500,
+      "foto": null,
+      "estado": "disponible"
+    },
+    {
+      "id": "set-accesorios",
+      "nombre": "Set de Accesorios",
+      "tipo": "Accessory Sets",
+      "categoria": "accesorio",
+      "descripcion": "Set de joyeria en estuche elegante: collar, brazalete y aretes a juego.",
+      "colores": ["Azul marino", "Verde", "Taupe"],
+      "precio_venta": 799,
+      "foto": null,
+      "estado": "disponible"
+    }
+  ]
+}

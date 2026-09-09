@@ -1,0 +1,124 @@
+---
+import Layout from '../layouts/Layout.astro';
+import bolsasData from '../data/bolsas.json';
+import { mxn } from '../lib/costeo.js';
+
+const todas = bolsasData.bolsas ?? [];
+const bolsas = todas.filter((b) => b.categoria !== 'accesorio');
+const accesorios = todas.filter((b) => b.categoria === 'accesorio');
+
+// Placeholder visual: monogram con la primera letra, mientras llegan las fotos reales.
+function inicial(nombre) {
+  return (nombre ?? '?').trim().charAt(0).toUpperCase();
+}
+---
+<Layout title="Catalogo — Dani Bolsas">
+  <section class="max-w-6xl mx-auto px-6 pt-16 pb-8 text-center">
+    <p class="text-gold uppercase tracking-widest text-xs mb-4">The Bag Collection</p>
+    <h1 class="font-display text-4xl md:text-5xl text-cocoa">Catalogo</h1>
+    <p class="mt-4 text-cocoa/70 max-w-xl mx-auto">
+      Siete siluetas curadas, mas los accesorios que las completan. Cada pieza, elegida a mano.
+    </p>
+  </section>
+
+  {todas.length === 0 ? (
+    <section class="max-w-6xl mx-auto px-6 pb-24">
+      <div class="p-12 border border-dashed border-cocoa/20 rounded-lg text-center bg-white/30">
+        <p class="font-display text-xl text-cocoa/70">Proximamente</p>
+        <p class="mt-3 text-cocoa/60 text-sm max-w-md mx-auto">
+          Dani esta preparando las fotos y detalles de las bolsas. El catalogo se llenara pronto.
+        </p>
+      </div>
+    </section>
+  ) : (
+    <>
+      <section class="max-w-6xl mx-auto px-6 pb-6">
+        <div class="p-4 rounded-lg bg-gold/10 border border-gold/30 text-sm text-cocoa/80 text-center">
+          📸 Las fotos de producto estan pendientes — en cuanto Dani las envie se agregan aqui.
+        </div>
+      </section>
+
+      {bolsas.length > 0 && (
+        <section class="max-w-6xl mx-auto px-6 pb-16">
+          <h2 class="font-display text-2xl text-cocoa mb-6 border-b border-cocoa/10 pb-3">Bolsas</h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {bolsas.map((b) => (
+              <article class="group bg-white/50 rounded-xl overflow-hidden border border-cocoa/10 hover:shadow-xl hover:-translate-y-0.5 transition">
+                <div class="relative w-full aspect-square overflow-hidden">
+                  {b.foto ? (
+                    <img src={b.foto} alt={b.nombre} class="w-full h-full object-cover" />
+                  ) : (
+                    <div class="w-full h-full bg-gradient-to-br from-cocoa/10 via-rose/10 to-gold/20 flex items-center justify-center">
+                      <span class="font-display text-6xl text-cocoa/25">{inicial(b.nombre)}</span>
+                    </div>
+                  )}
+                  {b.estado === 'vendida' && (
+                    <span class="absolute top-3 right-3 bg-cocoa text-cream text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">
+                      Vendida
+                    </span>
+                  )}
+                </div>
+                <div class="p-5">
+                  {b.tipo && (
+                    <p class="text-[11px] uppercase tracking-widest text-gold mb-1">{b.tipo}</p>
+                  )}
+                  <h3 class="font-display text-2xl text-cocoa">{b.nombre}</h3>
+                  {b.descripcion && <p class="mt-2 text-sm text-cocoa/70 leading-relaxed">{b.descripcion}</p>}
+                  {Array.isArray(b.colores) && b.colores.length > 0 && (
+                    <p class="mt-3 text-xs text-cocoa/60">
+                      <span class="uppercase tracking-wide text-cocoa/40">Colores</span> · {b.colores.join(' · ')}
+                    </p>
+                  )}
+                  {typeof b.precio_venta === 'number' && (
+                    <p class="mt-4 font-display text-lg text-cocoa">{mxn(b.precio_venta)}</p>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {accesorios.length > 0 && (
+        <section class="max-w-6xl mx-auto px-6 pb-24">
+          <h2 class="font-display text-2xl text-cocoa mb-6 border-b border-cocoa/10 pb-3">Accesorios</h2>
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {accesorios.map((b) => (
+              <article class="group bg-white/50 rounded-xl overflow-hidden border border-cocoa/10 hover:shadow-xl hover:-translate-y-0.5 transition">
+                <div class="relative w-full aspect-square overflow-hidden">
+                  {b.foto ? (
+                    <img src={b.foto} alt={b.nombre} class="w-full h-full object-cover" />
+                  ) : (
+                    <div class="w-full h-full bg-gradient-to-br from-rose/15 via-cream to-gold/20 flex items-center justify-center">
+                      <span class="font-display text-6xl text-cocoa/25">{inicial(b.nombre)}</span>
+                    </div>
+                  )}
+                  {b.estado === 'vendida' && (
+                    <span class="absolute top-3 right-3 bg-cocoa text-cream text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">
+                      Vendida
+                    </span>
+                  )}
+                </div>
+                <div class="p-5">
+                  {b.tipo && (
+                    <p class="text-[11px] uppercase tracking-widest text-gold mb-1">{b.tipo}</p>
+                  )}
+                  <h3 class="font-display text-2xl text-cocoa">{b.nombre}</h3>
+                  {b.descripcion && <p class="mt-2 text-sm text-cocoa/70 leading-relaxed">{b.descripcion}</p>}
+                  {Array.isArray(b.colores) && b.colores.length > 0 && (
+                    <p class="mt-3 text-xs text-cocoa/60">
+                      <span class="uppercase tracking-wide text-cocoa/40">Colores</span> · {b.colores.join(' · ')}
+                    </p>
+                  )}
+                  {typeof b.precio_venta === 'number' && (
+                    <p class="mt-4 font-display text-lg text-cocoa">{mxn(b.precio_venta)}</p>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+    </>
+  )}
+</Layout>

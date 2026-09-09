@@ -1,0 +1,40 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'Catalogo de bolsas de mano artesanales — Dani, Bacalar.' } = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen bg-cream text-cocoa font-body antialiased">
+    <header class="border-b border-cocoa/10 bg-cream/95 backdrop-blur sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+        <a href="/" class="font-display text-2xl tracking-wide text-cocoa">Dani <span class="text-gold">·</span> Bolsas</a>
+        <nav class="flex gap-6 text-sm">
+          <a href="/" class="hover:text-gold transition">Inicio</a>
+          <a href="/bolsas" class="hover:text-gold transition">Catalogo</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="mt-24 border-t border-cocoa/10 py-10 text-center text-sm text-cocoa/60">
+      <p>Hecho con carino en Bacalar, Quintana Roo.</p>
+      <p class="mt-1">&copy; {new Date().getFullYear()} Dani Bolsas.</p>
+    </footer>
+  </body>
+</html>
